@@ -3,13 +3,13 @@ from cryptography.fernet import Fernet
 global user,psw
 
 #Run once to create the key.
-
-'''def write_key() :  
+'''
+def write_key() :  
     key=Fernet.generate_key()
     with open ("key.key", "wb") as kf :
         kf.write(key)
 
-write_key() ''' 
+write_key() '''
 
 #Loading the key
 
@@ -24,13 +24,15 @@ def load_key() :
 key=load_key()
 fer=Fernet(key)
 def view() :
-    nonlocal user,psw
+    credentials=[]
     with open('password.txt', 'r') as f:
         for line in f.readlines() :
             data=line.rstrip()
             user,passw=data.split("|")
             psw=fer.decrypt(passw.encode()).decode()
+            credentials.append((user,psw))
             # print("User:",user,"| Password:",fer.decrypt(passw.encode()).decode())
+    return credentials
 def add(Ac_name,pwd) :
 
     with open('password.txt', 'a') as f:
